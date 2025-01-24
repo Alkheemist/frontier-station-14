@@ -129,22 +129,22 @@ public sealed class LinkedLifecycleGridSystem : EntitySystem
             HandlePulledEntity(targetUid, ref reparentEntities);
         }
 
-        // Get occupied MindContainers (non-humanoids, pets, etc.)
-        var mindQuery = AllEntityQuery<MindContainerComponent, TransformComponent>();
-        while (mindQuery.MoveNext(out var mobUid, out var mindContainer, out var xform))
+        // Get entities occupied by Minds (non-humanoids, pets, etc.)
+        var mindQuery = AllEntityQuery<MindComponent>();
+        while (mindQuery.MoveNext(out _, out var mind))
         {
+            var mobUid = mind.OwnedEntity;
+            if (mobUid == null || !TryComp(mobUid, out TransformComponent? xform) || xform == null)
+                continue;
+
             if (xform.GridUid == null || xform.MapUid == null || xform.GridUid != grid)
                 continue;
 
-            // Not player-controlled, little to lose
-            if (_mind.GetMind(mobUid, mindContainer) == null)
+            // All active humans and borgs should have minds - if we've handled them already, no need.
+            if (handledMindContainers.Contains((EntityUid)mobUid))
                 continue;
 
-            // All humans and borgs should have mind containers - if we've handled them already, no need.
-            if (handledMindContainers.Contains(mobUid))
-                continue;
-
-            var (targetUid, targetXform) = GetParentToReparent(mobUid, xform);
+            var (targetUid, targetXform) = GetParentToReparent((EntityUid)mobUid, xform);
 
             reparentEntities.Add(((targetUid, targetXform), targetXform.MapUid!.Value, _transform.GetWorldPosition(targetXform)));
 
