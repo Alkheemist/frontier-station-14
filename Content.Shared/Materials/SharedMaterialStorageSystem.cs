@@ -111,6 +111,21 @@ public abstract class SharedMaterialStorageSystem : EntitySystem
         return component.StorageLimit == null || GetTotalMaterialAmount(uid, component) + volume <= component.StorageLimit;
     }
 
+    // Start Frontier:
+    /// <summary>
+    /// Gets the volume available in storage
+    /// </summary>
+    /// <param name="uid"></param>
+    /// <param name="component"></param>
+    /// <returns>The remaining available space as an int, or null if there is no storage limit</returns>
+    public int? GetVolumeAvailable(EntityUid uid, MaterialStorageComponent? component = null)
+    {
+        if (!Resolve(uid, ref component) || component.StorageLimit == null)
+            return null;
+        return component.StorageLimit - GetTotalMaterialAmount(uid, component);
+    }
+
+
     /// <summary>
     /// Checks if the specified material can be changed by the specified volume.
     /// </summary>
