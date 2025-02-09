@@ -1,6 +1,5 @@
 using Content.Shared.Materials;
 using Content.Shared.Stacks;
-using Content.Server.Stack;
 using Robust.Client.GameObjects;
 
 namespace Content.Client.Materials;
@@ -9,7 +8,7 @@ public sealed class MaterialStorageSystem : SharedMaterialStorageSystem
 {
     [Dependency] private readonly AppearanceSystem _appearance = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
-    [Dependency] private readonly StackSystem _stack = default!;
+    [Dependency] private readonly SharedStackSystem _stack = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -59,21 +58,30 @@ public sealed class MaterialStorageSystem : SharedMaterialStorageSystem
         }
 
         // Check if the reason it failed is because the stack is too large and split the stack accordingly
-        if (!TryComp<StackComponent>(toInsert, out var stack) && storage is not null && storage.StorageLimit is not null)
+        if (TryComp<StackComponent>(toInsert, out var stack) &&
+            storage is not null &&
+            storage.StorageLimit is not null)
         {
-            var availableVolume = storage.StorageLimit - GetTotalMaterialAmount(receiver, storage);
-            var maxSheets = availableVolume / 100; // TODO: Programatically figure out how much material is in each sheet instead of magic numbers
-
-            // Partial stack is needed, split off what we need, ensure the new entry is moved.
-            EntityUid splitStack = _stack.Split(toInsert, maxSheets, Transform(toInsert).Coordinates, stack) ?? EntityUid.Invalid;
-
-            if (splitStack == EntityUid.Invalid)
+            if (!Resolve(toInsert, ref material, ref composition, false))
                 return false;
 
-            if (base.TryInsertMaterialEntity(user, splitStack, receiver, storage, material, composition))
+            var availableVolume = (int)storage.StorageLimit - GetTotalMaterialAmount(receiver, storage);
+            var materialPerSheet = 0;
+            foreach (var (_, vol) in composition.MaterialComposition)
             {
-                return true;
+                materialPerSheet += vol;
             }
+            var maxSheets = availableVolume / materialPerSheet;
+
+            // Partial stack is needed, split off what we need, ensure the new entry is moved.
+            if (!_stack.Use(toInsert, maxSheets, stack))
+                return false;
+
+            foreach (var (mat, vol) in composition.MaterialComposition)
+            {
+                TryChangeMaterialAmount(receiver, mat, vol * maxSheets, storage);
+            }
+            return true;
         }
         return false;
         // End Frontier: Automatically split stacks if it doesn't fit
