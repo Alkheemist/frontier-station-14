@@ -28,3 +28,21 @@
   canBuildInImpassable: true
   conditions:
   - !type:WallmountCondition {}
+
+- type: construction
+  name: wallmount gas deposit scanner
+  id: GasDepositLocatorWallmountRecipe
+  graph: GasDepositLocatorWallmountGraph
+  startNode: start
+  targetNode: GasDepositLocatorWallmountNode
+  category: construction-category-machines
+  description: A portable gas deposit scanner, made less portable.
+  icon:
+    sprite: _NF/Objects/Specific/Atmospherics/locator.rsi
+    state: on
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: true
+  conditions:
+    - !type:WallmountCondition

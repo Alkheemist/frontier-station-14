@@ -1,0 +1,30 @@
+- type: constructionGraph
+  id: GasDepositLocatorWallmountGraph
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: GasDepositLocatorWallmountNode
+          steps:
+            - tag: GasDepositLocator
+              name: "gas deposit scanner"
+              icon:
+                sprite: "_NF/Objects/Specific/Atmospherics/locator.rsi"
+              doAfter: 2.0
+            - material: Cable
+              amount: 2
+    - node: GasDepositLocatorWallmountNode
+      entity: GasDepositLocatorWallmount
+      edges:
+        - to: start
+          steps:
+            - tool: Screwing
+              doAfter: 2.0
+          completed:
+            - !type:SpawnPrototype
+              prototype: GasDepositLocator
+              amount: 1
+            - !type:SpawnPrototype
+              prototype: CableApcStack1
+              amount: 2
+            - !type:DeleteEntity {}
