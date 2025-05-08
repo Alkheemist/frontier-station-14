@@ -39,7 +39,7 @@
   description: A portable gas deposit scanner, made less portable.
   icon:
     sprite: _NF/Objects/Specific/Atmospherics/locator.rsi
-    state: on
+    state: icon
   objectType: Structure
   placementMode: SnapgridCenter
   canRotate: true
