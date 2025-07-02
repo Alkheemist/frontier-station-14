@@ -9,3 +9,6 @@ job-supervisors-plant-manager = the Plant Manager
 job-supervisors-prisoner = all NFSD personnel
 job-supervisors-sergeant = the Sergeant
 job-supervisors-sheriff = the Sheriff
+job-supervisors-syndicate = the Syndicate
+job-supervisors-foreign = the Lieutenants
+job-supervisors-foreign-lieutenant = yourself
