@@ -36,6 +36,13 @@
         },
         {
             "name": "air"
+        },
+        {
+            "name": "nitrous"
+        },
+        {
+            "name": "carbondioxide"
         }
+		
     ]
 }
