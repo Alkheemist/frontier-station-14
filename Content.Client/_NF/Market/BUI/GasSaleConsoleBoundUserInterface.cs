@@ -1,9 +1,9 @@
-using Content.Client._NF.Atmos.UI;
-using Content.Shared._NF.Atmos.BUI;
-using Content.Shared._NF.Atmos.Events;
+using Content.Client._NF.Market.UI;
+using Content.Shared._NF.Market.BUI;
+using Content.Shared._NF.Market.Events;
 using Robust.Client.UserInterface;
 
-namespace Content.Client._NF.Atmos.BUI;
+namespace Content.Client._NF.Market.BUI;
 
 public sealed class GasSaleConsoleBoundUserInterface(EntityUid owner, Enum uiKey) : BoundUserInterface(owner, uiKey)
 {

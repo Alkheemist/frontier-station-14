@@ -1,34 +1,26 @@
 using System.Numerics;
-using Content.Server._NF.Atmos.Components;
 using Content.Server.Administration.Logs;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Atmos.Piping.Components;
 using Content.Server.Audio;
 using Content.Server.Hands.Systems;
 using Content.Server.NodeContainer.EntitySystems;
-using Content.Server.NodeContainer.NodeGroups;
 using Content.Server.NodeContainer.Nodes;
 using Content.Server.Power.Components;
 using Content.Server.Stack;
-using Content.Shared._NF.Atmos.BUI;
-using Content.Shared._NF.Atmos.Components;
-using Content.Shared._NF.Atmos.Events;
-using Content.Shared._NF.Atmos.Prototypes;
-using Content.Shared._NF.Atmos.Systems;
-using Content.Shared._NF.Atmos.Visuals;
-using Content.Shared._NF.Bank.Components;
+using Content.Server._NF.Market.Components;
 using Content.Shared.Atmos;
-using Content.Shared.Atmos.Piping.Binary.Components;
 using Content.Shared.Coordinates;
-using Content.Shared.Construction.Components;
-using Content.Shared.Database;
-using Content.Shared.Power;
+using Content.Shared._NF.Bank.Components;
+using Content.Shared._NF.Market;
+using Content.Shared._NF.Market.BUI;
+using Content.Shared._NF.Market.Events;
 using Robust.Server.Audio;
 using Robust.Server.GameObjects;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
-namespace Content.Server._NF.Atmos.Systems;
+namespace Content.Server._NF.Market;
 
 /// <summary>
 /// System for handling sale and purchase of bulk gases

@@ -1,6 +1,6 @@
 using Robust.Shared.Serialization;
 
-namespace Content.Shared._NF.Atmos.Events;
+namespace Content.Shared._NF.Market.Events;
 
 /// <summary>
 /// Raised on a client requesting gas to be sold.

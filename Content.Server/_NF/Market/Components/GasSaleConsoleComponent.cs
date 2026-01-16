@@ -1,11 +1,12 @@
 using Content.Shared._NF.Atmos.Systems;
+using Content.Shared._NF.Market;
 using Content.Shared.Stacks;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
-namespace Content.Server._NF.Atmos.Components;
+namespace Content.Server._NF.Market.Components;
 
-[RegisterComponent, Access(typeof(SharedGasDepositSystem))]
+[RegisterComponent, Access(typeof(SharedGasMarketSystem))]
 public sealed partial class GasSaleConsoleComponent : Component
 {
     /// <summary>

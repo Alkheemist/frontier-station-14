@@ -1,7 +1,7 @@
 using Content.Shared.Atmos;
 using Robust.Shared.Serialization;
 
-namespace Content.Shared._NF.Atmos.BUI;
+namespace Content.Shared._NF.Market.BUI;
 
 [NetSerializable, Serializable]
 public sealed class GasSaleConsoleBoundUserInterfaceState(int appraisal, GasMixture mixture, bool enabled)
