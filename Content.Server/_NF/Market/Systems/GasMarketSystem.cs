@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Linq;
 using Content.Server.Administration.Logs;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Atmos.Piping.Components;
@@ -8,8 +9,11 @@ using Content.Server.NodeContainer.EntitySystems;
 using Content.Server.NodeContainer.Nodes;
 using Content.Server.Power.Components;
 using Content.Server.Stack;
+using Content.Server.Station.Systems;
 using Content.Server._NF.Market.Components;
 using Content.Shared.Atmos;
+using Content.Shared.Atmos.Prototypes;
+using Content.Server._NF.Market.Extensions;
 using Content.Shared.Coordinates;
 using Content.Shared._NF.Bank.Components;
 using Content.Shared._NF.Market;
@@ -38,6 +42,8 @@ public sealed class GasMarketSystem : SharedGasMarketSystem
     [Dependency] private readonly NodeContainerSystem _nodeContainer = default!;
     [Dependency] private readonly StackSystem _stack = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
+    [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private readonly IPrototypeManager _protoManager = default!;
 
     /// <summary>
     /// The maximum distance to check for nearby gas sale points when selling gas.
@@ -92,10 +98,26 @@ public sealed class GasMarketSystem : SharedGasMarketSystem
             return;
         }
 
+        var station = _station.GetOwningStation(gridUid);
+        if (station is null || !TryComp<GasMarketDataComponent>(station, out var market))
+            return;
+
+        var marketData = market.MarketDataList;
+
         var amount = 0.0;
         foreach (var salePoint in GetNearbySalePoints(ent, gridUid))
         {
             amount += _atmosphere.GetPrice(salePoint.Comp.GasStorage, true);
+
+            for (var i = 0; i < Atmospherics.TotalNumberOfGases; i++)
+            {
+                var gasAmount = salePoint.Comp.GasStorage.GetMoles(i);
+                if (gasAmount <= 0)
+                    continue;
+
+                GasMarketDataExtensions.Upsert(market!.MarketDataList, i, gasAmount);
+            }
+
             salePoint.Comp.GasStorage.Clear();
         }
 
@@ -168,4 +190,8 @@ public sealed class GasMarketSystem : SharedGasMarketSystem
 
         return ret;
     }
+
+
+
+
 }

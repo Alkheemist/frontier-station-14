@@ -1,7 +1,6 @@
 using Content.Shared._NF.Market;
-using Content.Shared.Whitelist;
 
-namespace Content.Shared._NF.Market.Components;
+namespace Content.Server._NF.Market.Components;
 
 /// <summary>
 /// Component that is put on the console's grid that will hold gases that have been sold, for that grid.

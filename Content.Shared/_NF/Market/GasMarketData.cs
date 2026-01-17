@@ -8,12 +8,12 @@ namespace Content.Shared._NF.Market;
 public class GasMarketData
 {
     [ViewVariables]
-    public ProtoId<GasPrototype> GasType { get; set; }
+    public int GasType { get; set; }
 
     [ViewVariables]
-    public int Quantity { get; set; }
+    public float Quantity { get; set; }
 
-    public GasMarketData(ProtoId<GasPrototype> gasType, int quantity, double price)
+    public GasMarketData(int gasType, float quantity)
     {
         GasType = gasType;
         Quantity = quantity;
