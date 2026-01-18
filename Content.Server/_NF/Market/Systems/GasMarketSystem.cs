@@ -1,9 +1,6 @@
 using System.Numerics;
-using System.Linq;
-using Content.Server.Administration.Logs;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Atmos.Piping.Components;
-using Content.Server.Audio;
 using Content.Server.Hands.Systems;
 using Content.Server.NodeContainer.EntitySystems;
 using Content.Server.NodeContainer.Nodes;
@@ -12,7 +9,6 @@ using Content.Server.Stack;
 using Content.Server.Station.Systems;
 using Content.Server._NF.Market.Components;
 using Content.Shared.Atmos;
-using Content.Shared.Atmos.Prototypes;
 using Content.Server._NF.Market.Extensions;
 using Content.Shared.Coordinates;
 using Content.Shared._NF.Bank.Components;
@@ -31,19 +27,14 @@ namespace Content.Server._NF.Market;
 /// </summary>
 public sealed class GasMarketSystem : SharedGasMarketSystem
 {
-    [Dependency] private readonly AmbientSoundSystem _ambientSound = default!;
-    [Dependency] private readonly AppearanceSystem _appearance = default!;
     [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
-    [Dependency] private readonly IAdminLogManager _adminLog = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly HandsSystem _hands = default!;
     [Dependency] private readonly NodeContainerSystem _nodeContainer = default!;
     [Dependency] private readonly StackSystem _stack = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
     [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly IPrototypeManager _protoManager = default!;
 
     /// <summary>
     /// The maximum distance to check for nearby gas sale points when selling gas.
@@ -102,8 +93,6 @@ public sealed class GasMarketSystem : SharedGasMarketSystem
         if (station is null || !TryComp<GasMarketDataComponent>(station, out var market))
             return;
 
-        var marketData = market.MarketDataList;
-
         var amount = 0.0;
         foreach (var salePoint in GetNearbySalePoints(ent, gridUid))
         {
@@ -115,7 +104,7 @@ public sealed class GasMarketSystem : SharedGasMarketSystem
                 if (gasAmount <= 0)
                     continue;
 
-                GasMarketDataExtensions.Upsert(market!.MarketDataList, i, gasAmount);
+                GasMarketDataExtensions.Upsert(market.MarketDataList, i, gasAmount);
             }
 
             salePoint.Comp.GasStorage.Clear();

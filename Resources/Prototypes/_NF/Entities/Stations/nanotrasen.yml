@@ -25,6 +25,7 @@
   parent:
   - StandardFrontierStation
   - MarketFrontierOutpost
+  - GasMarketFrontierOutpost
   categories: [ HideSpawnMenu ]
 
 # region POIs
@@ -59,6 +60,15 @@
   id: RecordsFrontierOutpost
   parent:
   - StandardFrontierOutpost
+  - BaseStationRecords
+  categories: [ HideSpawnMenu ]
+
+  # Station with records & gas market, for power plant
+- type: entity
+  id: GasMarketFrontierOutpost
+  parent:
+  - StandardFrontierOutpost
+  - BaseStationGasMarket
   - BaseStationRecords
   categories: [ HideSpawnMenu ]
 

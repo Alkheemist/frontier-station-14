@@ -31,7 +31,7 @@
   minPlayers: 0
   stations:
     Edison:
-      stationProto: RecordsFrontierOutpost
+      stationProto: GasMarketFrontierOutpost
       components:
         - type: StationNameSetup
           mapNameTemplate: 'Edison Power Plant'

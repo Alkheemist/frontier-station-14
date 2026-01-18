@@ -111,6 +111,12 @@
       - UraniumMaterials # Counts as food
 
 - type: entity
+  id: BaseStationGasMarket
+  abstract: true
+  components:
+    - type: GasMarketData
+
+- type: entity
   id: BaseStationDeadDrops
   abstract: true
   components:
