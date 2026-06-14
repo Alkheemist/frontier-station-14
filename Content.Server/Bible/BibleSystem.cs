@@ -44,8 +44,8 @@ namespace Content.Server.Bible
             SubscribeLocalEvent<BibleComponent, MixingAttemptEvent>(OnMixingAttempt); // Frontier: restrict solution blessing to bible users
             SubscribeLocalEvent<BibleComponent, AfterInteractEvent>(OnAfterInteract, before: [typeof(ReactionMixerSystem)]); // Frontier: add before parameter
             SubscribeLocalEvent<SummonableComponent, GetVerbsEvent<AlternativeVerb>>(AddSummonVerb);
-            SubscribeLocalEvent<SummonableComponent, GetItemActionsEvent>(GetSummonAction);
-            SubscribeLocalEvent<SummonableComponent, SummonActionEvent>(OnSummon);
+            // SubscribeLocalEvent<SummonableComponent, GetItemActionsEvent>(GetSummonAction); // Frontier: don't add action to hotbar
+            // SubscribeLocalEvent<SummonableComponent, SummonActionEvent>(OnSummon); // Frontier: don't add action to hotbar
             SubscribeLocalEvent<FamiliarComponent, MobStateChangedEvent>(OnFamiliarDeath);
             SubscribeLocalEvent<FamiliarComponent, GhostRoleSpawnerUsedEvent>(OnSpawned);
         }
@@ -207,18 +207,20 @@ namespace Content.Server.Bible
             args.Verbs.Add(verb);
         }
 
-        private void GetSummonAction(EntityUid uid, SummonableComponent component, GetItemActionsEvent args)
-        {
-            if (component.AlreadySummoned)
-                return;
+        // Frontier: don't add action to hotbar
+        // private void GetSummonAction(EntityUid uid, SummonableComponent component, GetItemActionsEvent args)
+        // {
+        //     if (component.AlreadySummoned)
+        //         return;
 
-            args.AddAction(ref component.SummonActionEntity, component.SummonAction);
-        }
+        //     args.AddAction(ref component.SummonActionEntity, component.SummonAction);
+        // }
 
-        private void OnSummon(Entity<SummonableComponent> ent, ref SummonActionEvent args)
-        {
-            AttemptSummon(ent, args.Performer, Transform(args.Performer));
-        }
+        // private void OnSummon(Entity<SummonableComponent> ent, ref SummonActionEvent args)
+        // {
+        //     AttemptSummon(ent, args.Performer, Transform(args.Performer));
+        // }
+        // End Frontier: don't add action to hotbar
 
         /// <summary>
         /// Starts up the respawn stuff when
@@ -277,7 +279,7 @@ namespace Content.Server.Bible
                 _transform.SetParent(familiar, uid);
             }
             component.AlreadySummoned = true;
-            _actionsSystem.RemoveAction(user, component.SummonActionEntity);
+            // _actionsSystem.RemoveAction(user, component.SummonActionEntity); // End Frontier: don't add action to hotbar
         }
     }
 }
